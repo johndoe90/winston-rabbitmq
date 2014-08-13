@@ -1,6 +1,6 @@
 {
   "name": "winston-rabbitmq",
-  "version": "0.0.1",
+  "version": "0.0.4",
 	"main": "./winston-rabbitmq.js",
   "dependencies": {
     "amqplib": "^0.2.1",

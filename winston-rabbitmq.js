@@ -4,12 +4,12 @@ var	util = require('util'),
 		amqp = require('amqplib'),
 		winston = require('winston');
 
-var setup, connection, channel;
+var connection, channel;
 
-function setupConnection (options) {
-	if ( !setup ) {
+function setupConnection(options) {
+	if ( !setupConnection.setup ) {
 		var amqpUrl = util.format('amqp://%s:%s@%s:%d%s', options.username, options.password, options.host, options.port, options.virtualHost);
-		setup = amqp.connect(amqpUrl).then(function(con) {
+		setupConnection.setup = amqp.connect(amqpUrl).then(function(con) {
 			connection = con;
 			return connection.createChannel();
 		}).then(function(ch) {
@@ -19,11 +19,11 @@ function setupConnection (options) {
 		});
 	};
 
-	return setup;
+	return setupConnection.setup;
 }
 
 function teardownConnection () {
-	channel.close().then(function() {
+	channel.close().finally(function() {
 		connection.close()
 	});
 }
@@ -34,19 +34,17 @@ var RabbitLogger = winston.transports.RabbitLogger = function(options) {
 
 	this.name = 'rabbitLogger';
 	this.level = options.level || 'info';
-	this.amqp = {
-		host: options.host || 'localhost',
-		port: options.amqp.port || 5672,
-		username: options.amqp.username || 'guest',
-		password: options.amqp.password || 'guest',
-		virtualHost: options.amqp.virtualHost || '',
 
-		exchangeName: options.amqp.exchangeName || 'amq.topic',
-		exchangeType: options.amqp.exchangeType || 'topic',
-		routingKeyPattern: options.amqp.routingKeyPattern || 'mymessages',
-
-		applicationId: options.amqp.applicationId || ''
-	};
+	this.amqp = {};
+	this.amqp.host = options.amqp.host || 'localhost';
+	this.amqp.port = options.amqp.port || 5672;
+	this.amqp.username = options.amqp.username || 'guest';
+	this.amqp.password = options.amqp.password || 'guest';
+	this.amqp.virtualHost = options.amqp.virtualHost || '';
+	this.amqp.applicationId = options.amqp.applicationId || 'noname';
+	this.amqp.exchangeType = options.amqp.exchangeType || 'topic';
+	this.amqp.exchangeName = options.amqp.exchangeName || 'amq.topic';
+	this.amqp.routingKeyPattern = options.amqp.routingKeyPattern || (this.amqp.applicationId + '.logs');
 };
 
 util.inherits(RabbitLogger, winston.Transport);
