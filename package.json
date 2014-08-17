@@ -1,10 +1,20 @@
 {
   "name": "winston-rabbitmq",
-  "version": "0.0.5",
-	"main": "./winston-rabbitmq.js",
+  "version": "0.0.6",
+  "description": "RabbitMq transport for Winston logger",
+  "main": "winston-rabbitmq.js",
+	"repository": {
+    "type": "git",
+    "url": "https://github.com/johndoe90/winston-rabbitmq.git"
+  },
   "dependencies": {
     "amqplib": "^0.2.1",
     "winston": "^0.7.3"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Phillip Friedrich",
+  "license": "ISC"
 }

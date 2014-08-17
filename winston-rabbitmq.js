@@ -29,10 +29,12 @@ function teardownConnection () {
 }
 
 var RabbitLogger = winston.transports.RabbitLogger = function(options) {
+	winston.Transport.call(this, options);
+
 	options = options || {};
 	options.amqp = options.amqp || {};
 
-	this.name = 'rabbitLogger';
+	this.name = options.name || 'rabbitLogger';
 	this.level = options.level || 'info';
 
 	this.amqp = {};
