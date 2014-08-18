@@ -1,0 +1,1 @@
+RabbitMq transport for Winston logger
