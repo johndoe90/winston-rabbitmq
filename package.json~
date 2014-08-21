@@ -8,8 +8,8 @@
     "url": "https://github.com/johndoe90/winston-rabbitmq.git"
   },
   "dependencies": {
-		"application-initializer": "^0.0.2",
-    "amqp-connect": "^0.0.1",
+		"application-initializer": "0.0.2",
+    "amqp-connect": "0.0.1",
     "amqplib": "^0.2.1",
     "winston": "^0.7.3"
   },
